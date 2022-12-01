@@ -21,15 +21,16 @@ const scene = new THREE.Scene()
  */
 let mixer = null
 const gltfLoader = new GLTFLoader()
-console.log(gltfLoader);
-gltfLoader.load('/models/Dwarf/glTF/Dwarf.gltf',(gltf)=>
+gltfLoader.load('/models/Cube/glTF/Simple.glb',(gltf)=>
 {
     console.log(gltf)
     console.log('success')
 
-    // mixer = new THREE.AnimationMixer(gltf.scene)
-    // const action = mixer.clipAction(gltf.animations[0])
-    // action.play()
+    mixer = new THREE.AnimationMixer(gltf.scene)
+    const action = mixer.clipAction(gltf.animations[0])
+    console.log(action);
+    action.play()
+
 
     const children = [...gltf.scene.children]
     // console.log(children);
@@ -38,6 +39,7 @@ gltfLoader.load('/models/Dwarf/glTF/Dwarf.gltf',(gltf)=>
             scene.add(child)
         }
     }
+
 },
 ()=>{console.log('progress')},()=>{console.log('error')})
 
@@ -54,7 +56,7 @@ const floor = new THREE.Mesh(
 )
 floor.receiveShadow = true
 floor.rotation.x = - Math.PI * 0.5
-scene.add(floor)
+// scene.add(floor)
 
 /**
  * Lights
