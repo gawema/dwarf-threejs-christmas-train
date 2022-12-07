@@ -76,16 +76,27 @@ scene.environment = environmentMap
  */
 let mixer = null
 const gltfLoader = new GLTFLoader()
-gltfLoader.load('/models/ChristmasTrain/glTF/ChristmasTrain.gltf',(gltf)=>
+gltfLoader.load('/models/ChristmasTrain/glTF/ChristmasTrain3.gltf',(gltf)=>
 {
     console.log(gltf.scene)
     // console.log('success')
 
     mixer = new THREE.AnimationMixer(gltf.scene)
-    for(const animation of gltf.animations){
-        const action = mixer.clipAction(animation)
-        action.play()
-    }
+    // for(const animation of gltf.animations){
+    //     const action = mixer.clipAction(animation)
+    //     action.play()
+    // }
+        // for(const animation of gltf.animations){
+    const action = mixer.clipAction(gltf.animations[0])
+    action.setLoop(THREE.LoopRepeat ,1);
+    action.play()
+    mixer.addEventListener( 'finished', ( /*event*/ ) => {
+        console.log('finish');
+        const action = mixer.clipAction(gltf.animations[1])
+        action.setLoop(THREE.LoopRepeat ,1);
+        action.play()           
+    } );
+    
     scene.add(gltf.scene)
     updateAllMaterials(gltf.scene)
     animateDecorations(gltf.scene)
